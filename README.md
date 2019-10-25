@@ -34,8 +34,8 @@ Here's the list of the commands the bot can execute :
 
 ### Update 1.1.2
 
-1. [FIX] Fixed error messages (*Weren't working on some occasions*)
-1. [FIX] Changed a lot on how the code is written, leads to less bug possibilities
-1. [CHANGE] Change the format of the `++next-transport` command. A lot more clean!
-1. [ADD] Added departure numbers after departure times on `++next-transport`
-1. [REMOVED] Removed time of departure on `++next-transport` **departure info** embed. 
+1. `[FIX]`      Fixed error messages (*Weren't working on some occasions*)
+1. `[FIX]`      Changed a lot on how the code is written, leads to less bug possibilities
+1. `[CHANGE]`   Change the format of the `++next-transport` command. A lot more clean!
+1. `[ADD]`      Added departure numbers after departure times on `++next-transport`
+1. `[REMOVED]`  Removed time of departure on `++next-transport` **departure info** embed.
