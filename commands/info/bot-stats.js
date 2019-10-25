@@ -1,6 +1,6 @@
 module.exports = {
   name: "bot-stats",
-  category: "bot info",
+  category: "info",
   description: "Returns the server count and member count of the bot.",
   run: async (client, message, args) => {
     const { RichEmbed } = require("discord.js");
@@ -12,6 +12,7 @@ module.exports = {
       .addField("Servercount :", `**${client.guilds.size}**`, true)
       .addField("Usercount :", `**${client.users.size}**`, true)
       .addField("Text channels :", `**${client.channels.filter(c => c.type === 'text').size}**`, true)
+      .addField("Bot Version :" , "v1.1.3")
       .addBlankField()
       .addField("Bot creator info :", `TacticsCH#2795`, true)
       .addField("GitHub :", `https://github.com/tacticsch/`, true)

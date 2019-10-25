@@ -32,7 +32,7 @@ Here's the list of the commands the bot can execute :
 
 ## Recent Update
 
-### Update 1.1.2
+### Update 1.1.3
 
 1. `[FIX]`      Fixed error messages (*Weren't working on some occasions*)
 1. `[FIX]`      Changed a lot on how the code is written, leads to less bug possibilities
