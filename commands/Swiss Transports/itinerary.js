@@ -8,15 +8,30 @@ module.exports = {
   description: "Gives you the detail of an itinerary",
   usage: "++itinerary <from> <to>",
   run: async (bot,message,args) => {
+      // Gets API infos
       let {body} = await superagent
       .get(`http://transport.opendata.ch/v1/connections?from=${args[0]}&to=${args[1]}`);
 
-        var date = new Date(body.connections[0].from.departure),
-        hours   = date.getHours(),
-        minutes = date.getMinutes();
+        // Converts date format
+        if (body.connections[0]){
+          var date = new Date(body.connections[0].from.departure),
+          hours   = date.getHours(),
+          minutes = date.getMinutes();
 
-        var output  = ("0" + hours).slice(-2) + ':' + ("0" + minutes).slice(-2) + ' h';
-
+          var output  = ("0" + hours).slice(-2) + ':' + ("0" + minutes).slice(-2) + ' h';
+        }
+        // Creates the embed for error messages
+        function DiscordError (ErrorString)
+        {
+          let errorembed = new Discord.RichEmbed()
+          .setColor("RED")
+          .setTitle("**ERROR! :**")
+          .addField("**Issue :**", `${ErrorString}`)
+          .setTimestamp()
+          .setFooter("Usage : ++itinerary <from> <to>");
+          message.channel.send(errorembed);
+        }
+        // Gives itinerary infos
         if (args[0] && args[1] && !args[2] && body.connections[0])
         {
           let timeembed = new Discord.RichEmbed()
@@ -28,6 +43,7 @@ module.exports = {
           .setTimestamp()
           .setFooter("From transport.opendata.ch");
 
+          // Adds all fields for stops, and checks if you need to walk or not.
           for (let i = 0; i < (body.connections[0].sections.length); i++) {
             if (body.connections[0].sections[i].walk)
             {
@@ -43,32 +59,18 @@ module.exports = {
               timeembed.addBlankField()
             }
           }
-
           message.channel.send(timeembed);
-        } else if (!args[0]) {
-          let errorembed = new Discord.RichEmbed()
-          .setColor("RED")
-          .setTitle("**ERROR! :**")
-          .addField("**Issue :**", "You havent put any city names! Specify them after `++itinerary`")
-          .setTimestamp()
-          .setFooter("Usage : ++itinerary <from> <to>");
-          message.channel.send(errorembed);
-        } else if (!args[1] || args[2]) {
-          let errorembed = new Discord.RichEmbed()
-          .setColor("RED")
-          .setTitle("**ERROR! :**")
-          .addField("**Issue :**", "You need to put the name of **2** cities!")
-          .setTimestamp()
-          .setFooter("Usage : ++itinerary <from> <to>");
-          message.channel.send(errorembed);
-        } else if (!body.connections[0]) {
-          let errorembed = new Discord.RichEmbed()
-          .setColor("RED")
-          .setTitle("**ERROR! :**")
-          .addField("**Issue :**", "One of the name of your cities doesn't exist")
-          .setTimestamp()
-          .setFooter("Usage : ++itinerary <from> <to>");
-          message.channel.send(errorembed);
+
+          // All possible error messages.
+        } else if (!args[0] || !args[1] || args[2] || !body.connections[0]) {
+          if (!args[0]) {
+            var ErrorString = "You havent put any city names! Specify them after `++itinerary`";
+          } else if (!args[1] || args[2]) {
+            var ErrorString = "You need to put the name of **2** cities!";
+          } else if (!body.connections[0]) {
+            var ErrorString = "One of the name of your cities doesn't exist";
+          }
+          DiscordError(ErrorString);
         }
       }
 }
