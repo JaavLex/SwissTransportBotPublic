@@ -22,7 +22,7 @@ module.exports = {
         .setTitle("**ERROR! :**")
         .addField("**Issue :**", `${ErrorString}`)
         .setTimestamp()
-        .setFooter("Usage : ++itinerary <from> <to>");
+        .setFooter("Usage : ++next-transport <from> <to> [departurenumber]");
         message.channel.send(errorembed);
       }
       // Gets the 3 next departing transports and converting hour format
@@ -101,11 +101,11 @@ module.exports = {
           message.channel.send(errorembed);
         }
         // All possible error messages
-      } else if (!args[0] || !args[1] || args[2] || !body.connections[0]) {
+      } else if (!args[0] || !args[1] || !body.connections[0]) {
         if (!args[0]) {
-          var ErrorString = "You havent put any city names! Specify them after `++itinerary`";
-        } else if (!args[1] || args[2]) {
-          var ErrorString = "You need to put the name of **2** cities!";
+          var ErrorString = "You havent put any city names! Specify them after `++next-transport`";
+        } else if (!args[1]) {
+          var ErrorString = "You need to put the name of **2 or 3** cities!";
         } else if (!body.connections[0]) {
           var ErrorString = "One of the name of your cities doesn't exist";
         }
